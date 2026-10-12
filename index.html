@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080604">
+<title>Freshers Party 2026 — Surprise</title>
+<style>
+  :root { color-scheme: dark; --gold: #ffd45b; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100svh; overflow-x: hidden;
+    display: grid; place-items: center; padding: 24px 14px;
+    background: radial-gradient(ellipse at 50% 35%, #3a2308 0%, #120d08 38%, #030303 78%);
+    color: #fff8e4; font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+  }
+  .stage { width: min(100%, 620px); text-align: center; position: relative; }
+  .eyebrow { color: var(--gold); letter-spacing: .22em; font-size: .75rem; font-weight: 800; }
+  h1 { font-size: clamp(1.5rem, 6vw, 2.5rem); margin: 10px 0 8px; }
+  .sub { color: #d9cba7; margin: 0 0 28px; }
+  #countdown {
+    font-size: clamp(7rem, 35vw, 13rem); line-height: 1; font-weight: 900;
+    color: var(--gold); text-shadow: 0 0 18px #ffb300, 0 0 60px #ff7b00;
+    animation: pulse .8s ease-in-out infinite alternate;
+  }
+  @keyframes pulse { from { transform: scale(.92); opacity: .75; } to { transform: scale(1.06); opacity: 1; } }
+  .ring { width: min(66vw, 260px); aspect-ratio: 1; margin: 10px auto 22px; border: 2px solid #b8862a; border-radius: 50%; display:grid; place-items:center; box-shadow: 0 0 40px #b8792344, inset 0 0 30px #b8792322; }
+  #reveal { display: none; opacity: 0; transform: scale(.78) translateY(20px); }
+  #reveal.show { display:block; animation: reveal .9s cubic-bezier(.2,.8,.2,1) forwards; }
+  @keyframes reveal { to { opacity:1; transform:scale(1) translateY(0); } }
+  #reveal img { display:block; width:100%; height:auto; border: 2px solid var(--gold); border-radius: 12px; box-shadow: 0 0 35px #ffb30055; }
+  .caption { color: var(--gold); font-weight: 800; letter-spacing: .12em; margin: 18px 0 0; }
+  .small { font-size: .85rem; color: #b9ad91; margin-top: 18px; }
+  .spark { position:fixed; top:-12px; width:8px; height:13px; border-radius:2px; pointer-events:none; z-index:5; animation: fall linear forwards; }
+  @keyframes fall { to { transform: translate3d(var(--drift), 110svh, 0) rotate(780deg); opacity:.9; } }
+  .hidden { display:none !important; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior:auto !important; } }
+</style>
+</head>
+<body>
+<main class="stage">
+  <div class="eyebrow">A.P.S. COLLEGE OF ENGINEERING · ISE</div>
+  <h1 id="heading">Your Freshers surprise is ready</h1>
+  <p class="sub" id="subheading">Get ready…</p>
+  <div class="ring" id="ring"><div id="countdown" aria-live="polite">3</div></div>
+  <section id="reveal" aria-live="polite">
+    <img src="poster.jpg" alt="A.P.S. College of Engineering Freshers Party 2026 poster">
+    <p class="caption">SEE YOU AT FRESHERS PARTY 2026 ✨</p>
+  </section>
+  <p class="small" id="footer">A little countdown. A big celebration.</p>
+</main>
+<script>
+  const number = document.getElementById('countdown');
+  const ring = document.getElementById('ring');
+  const reveal = document.getElementById('reveal');
+  const heading = document.getElementById('heading');
+  const subheading = document.getElementById('subheading');
+  const footer = document.getElementById('footer');
+  let value = 3;
+  const timer = setInterval(() => {
+    value -= 1;
+    if (value > 0) {
+      number.textContent = value;
+    } else {
+      clearInterval(timer);
+      ring.classList.add('hidden');
+      heading.textContent = 'THE WAIT IS OVER!';
+      subheading.textContent = 'Let the celebration begin';
+      footer.classList.add('hidden');
+      reveal.classList.add('show');
+      launchConfetti(130);
+    }
+  }, 1000);
+
+  function launchConfetti(amount) {
+    const colors = ['#ffd45b', '#fff0a6', '#ff9f1c', '#f5f5f5', '#e83e8c'];
+    for (let i = 0; i < amount; i++) {
+      const piece = document.createElement('i');
+      piece.className = 'spark';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDuration = (2.2 + Math.random() * 3.2) + 's';
+      piece.style.animationDelay = (Math.random() * .8) + 's';
+      piece.style.setProperty('--drift', (Math.random() * 220 - 110) + 'px');
+      document.body.appendChild(piece);
+      setTimeout(() => piece.remove(), 6500);
+    }
+  }
+</script>
+</body>
+</html>
